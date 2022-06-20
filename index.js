@@ -1,5 +1,5 @@
-const { findQuarters, findHoldingsDiff } = require("./src/13f");
 const { FILERS } = require("./src/constants");
+const {findHoldingsDiff, findQuarters} = require("./src/utils/ww");
 
-// findQuarters();
-findHoldingsDiff(FILERS['BERKSHIRE HATHAWAY INC'], 84, 85);
+console.log(findHoldingsDiff(FILERS["BERKSHIRE HATHAWAY INC"], 84, 85))
+// findHoldingsDiff(FILERS["BERKSHIRE HATHAWAY INC"], 85, 86)

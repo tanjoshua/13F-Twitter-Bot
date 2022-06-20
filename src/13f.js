@@ -1,49 +1,32 @@
-const { makeApiCall } = require("./utils.js/ww");
+const { FILERS } = require("./constants");
+const { generateTweet } = require("./utils/twit");
+const { findHoldingsDiff } = require("./utils/ww")
 
-const findQuarters = async () => {
-  const args = {
-    command: "quarters"
+const parseHoldings = async (filerId, newQ) => {
+  const { records } = await findHoldingsDiff(filerId, newQ - 1, newQ)
+
+  // criteria: > 10% change in stock position and > 0.5% old/new position
+  const applicableRecords = []
+
+  for (record of records) {
+    change = Math.abs(record.change_in_shares);
+    pChange = change / record.quarter_one_shares;
+    if (pChange >= 0.10 && 
+        (record.quarter_one_percent_of_portfolio >= 0.5 || record.quarter_two_percent_of_portfolio >= 0.5)) {
+        applicableRecords.push(record);
+    }
   }
 
-  try {
-    const response = await makeApiCall(args);
-    console.log(response.data);
-  } catch (error) {
-    console.log(error)
-  }
+  return applicableRecords
 }
 
-const findHoldings = async (filerId, quarter) => {
-  const args = {
-    command: "holdings",
-    filer_ids: [filerId],
-    quarter_ids: [quarter],
-    limit: 1,
-  }
-
-  try {
-    const response = await makeApiCall(args);
-    console.log(response.data)
-  } catch (error) {
-    console.log(error);
-  }
+const test = async() => {
+    const records = await parseHoldings(FILERS["BERKSHIRE HATHAWAY INC"], 85);
+    console.log(records);
+    for (record of records) {
+        console.log(generateTweet("BERKSHIRE HATHAWAY INC", record));
+    }
 }
+test();
 
-const findHoldingsDiff = async (filerId, q1id, q2id) => {
-  const args = {
-    command: "holdings_comparison",
-    filerid: filerId,
-    q1id: q1id,
-    q2id: q2id,
-  }
-
-  try {
-    const response = await makeApiCall(args);
-    console.log(response.data)
-  } catch (error) {
-    console.log(error);
-  }
-
-}
-
-module.exports = { findQuarters, findHoldings, findHoldingsDiff }
+module.exports = {parseHoldings}

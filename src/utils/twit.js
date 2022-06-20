@@ -18,4 +18,10 @@ const postTweet = (body) => {
     })
 }
 
-module.exports = {twitClient, postTweet}
+const generateTweet = (filer, data) => {
+    const action = data.change_in_shares > 0 ? "bought" : "sold";
+    const text = `${filer} ${action} ${Math.abs(data.change_in_shares)} shares of ${data.stock_name} ($${data.symbol})`
+    return text;
+}
+
+module.exports = {twitClient, postTweet, generateTweet}
