@@ -8,4 +8,14 @@ const twitClient = new twit({
     access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 })
 
-module.exports = twitClient
+const postTweet = (body) => {
+    twitClient.post('statuses/update', { status: body }, function(err, data, response) {
+        if (err) {
+            console.log(err);
+        }
+        console.log(data.text)
+
+    })
+}
+
+module.exports = {twitClient, postTweet}

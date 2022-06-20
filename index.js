@@ -1,5 +1,5 @@
-const twit = require("./twit");
+const { findQuarters, findHoldingsDiff } = require("./src/13f");
+const { FILERS } = require("./src/constants");
 
-twit.post('statuses/update', { status: 'hello world!' }, function(err, data, response) {
-  console.log(data)
-})
+// findQuarters();
+findHoldingsDiff(FILERS['BERKSHIRE HATHAWAY INC'], 84, 85);
