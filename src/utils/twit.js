@@ -26,9 +26,9 @@ const generateTweet = (filer, data) => {
     let changeText;
     if (data.quarter_one_shares != 0) {
         pChange = (absChange / data.quarter_one_shares) * 100;
-        changeText = `${sign}${pChange.toFixed(2)}%`
+        changeText = `${sign}${pChange.toFixed(2)}%`;
     } else {
-        changeText = "New Position"
+        changeText = "New Position";
     }
     const text = `${filer} ${action} ${absChange} shares (${changeText}) of ${data.stock_name} ($${data.symbol})`;
     return text;
