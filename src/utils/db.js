@@ -5,10 +5,16 @@ const insertNewFiler = (id, name, quarter) => {
     insert.run(id, name, quarter);
 }
 
+const filerExists = (id) => {
+    const exists = db.prepare('SELECT 1 FROM filer WHERE id=?')
+    const result = exists.get(id);
+    return !!result;
+}
+
 const getLastQuarterById = (id) => {
     const statement = db.prepare('SELECT last_quarter FROM filer WHERE id=?');
     const lastQ = statement.get(id);
-    return lastQ.LAST_QUARTER;
+    return lastQ?.LAST_QUARTER;
 }
 
 const updateById = (id, newQuarter) => {
@@ -16,4 +22,4 @@ const updateById = (id, newQuarter) => {
     update.run(newQuarter, id);
 }
 
-module.exports = {insertNewFiler, getLastQuarterById, updateById}
+module.exports = {insertNewFiler, getLastQuarterById, updateById, filerExists}
