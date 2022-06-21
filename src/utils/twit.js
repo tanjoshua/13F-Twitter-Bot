@@ -20,7 +20,17 @@ const postTweet = (body) => {
 
 const generateTweet = (filer, data) => {
     const action = data.change_in_shares > 0 ? "bought" : "sold";
-    const text = `${filer} ${action} ${Math.abs(data.change_in_shares)} shares of ${data.stock_name} ($${data.symbol})`
+    const sign = data.change_in_shares > 0 ? "+" : "-";
+    const absChange = Math.abs(data.change_in_shares);
+
+    let changeText;
+    if (data.quarter_one_shares != 0) {
+        pChange = (absChange / data.quarter_one_shares) * 100;
+        changeText = `${sign}${pChange.toFixed(2)}%`
+    } else {
+        changeText = "New Position"
+    }
+    const text = `${filer} ${action} ${absChange} shares (${changeText}) of ${data.stock_name} ($${data.symbol})`;
     return text;
 }
 
