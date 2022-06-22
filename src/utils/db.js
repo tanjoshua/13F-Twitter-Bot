@@ -22,4 +22,9 @@ const updateById = (id, newQuarter) => {
     update.run(newQuarter, id);
 }
 
-module.exports = {insertNewFiler, getLastQuarterById, updateById, filerExists}
+const resetDb = () => {
+    const del = db.prepare('DELETE FROM filer');
+    del.run();
+}
+
+module.exports = {insertNewFiler, getLastQuarterById, updateById, filerExists, resetDb}
