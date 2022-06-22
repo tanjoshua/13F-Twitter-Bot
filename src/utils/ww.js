@@ -18,6 +18,12 @@ const makeApiCall = async (args) => {
     return axios.get(url)
 }
 
+const getLatestQuarter = async () => {
+  const data = await findQuarters();
+  lastObject = data.quarters[data.quarters.length - 1];
+  return lastObject;
+}
+
 const findQuarters = async () => {
   const args = {
     command: "quarters"
@@ -25,7 +31,6 @@ const findQuarters = async () => {
 
   try {
     const response = await makeApiCall(args);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -42,7 +47,6 @@ const findHoldings = async (filerId, quarter) => {
 
   try {
     const response = await makeApiCall(args);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.log(error);
@@ -59,7 +63,6 @@ const findHoldingsDiff = async (filerId, q1id, q2id) => {
 
   try {
     const response = await makeApiCall(args);
-    console.log(response.data);
     return response.data
   } catch (error) {
     console.log(error);
@@ -68,4 +71,4 @@ const findHoldingsDiff = async (filerId, q1id, q2id) => {
 
 
 
-module.exports = {makeApiCall, findQuarters, findHoldings, findHoldingsDiff}
+module.exports = {makeApiCall, findQuarters, findHoldings, findHoldingsDiff, getLatestQuarter}

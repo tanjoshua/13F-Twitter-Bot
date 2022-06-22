@@ -18,7 +18,7 @@ const postTweet = (body) => {
     })
 }
 
-const generateTweet = (filer, data) => {
+const generateTweet = (filer, data, period) => {
     const action = data.change_in_shares > 0 ? "bought" : "sold";
     const sign = data.change_in_shares > 0 ? "+" : "-";
     const absChange = Math.abs(data.change_in_shares);
@@ -30,7 +30,7 @@ const generateTweet = (filer, data) => {
     } else {
         changeText = "New Position";
     }
-    const text = `${filer} ${action} ${absChange} shares (${changeText}) of ${data.stock_name} ($${data.symbol})`;
+    const text = `${filer} ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} ($${data.symbol}) in ${period}`;
     return text;
 }
 
