@@ -13,8 +13,8 @@ const postTweet = (body) => {
         if (err) {
             console.log(err);
         }
-        console.log(data.text)
 
+        console.log(`TWEETED: ${data.text}`)
     })
 }
 

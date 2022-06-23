@@ -14,7 +14,7 @@ const filerExists = (id) => {
 const getLastQuarterById = (id) => {
     const statement = db.prepare('SELECT last_quarter FROM filer WHERE id=?');
     const lastQ = statement.get(id);
-    return lastQ?.LAST_QUARTER;
+    return lastQ ? lastQ.LAST_QUARTER : null;
 }
 
 const updateById = (id, newQuarter) => {
