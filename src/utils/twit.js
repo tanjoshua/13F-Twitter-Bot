@@ -8,16 +8,6 @@ const twitClient = new twit({
     access_token_secret: process.env.ACCESS_TOKEN_SECRET,
 })
 
-const postTweet = (body) => {
-    twitClient.post('statuses/update', { status: body }, function(err, data, response) {
-        if (err) {
-            console.log(err);
-        }
-
-        console.log(`TWEETED: ${data.text}`)
-    })
-}
-
 const generateTweet = (filer, data, period) => {
     const action = data.change_in_shares > 0 ? "bought" : "sold";
     const sign = data.change_in_shares > 0 ? "+" : "-";
@@ -30,8 +20,10 @@ const generateTweet = (filer, data, period) => {
     } else {
         changeText = "New Position";
     }
-    const text = `${filer} ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} ($${data.symbol}) in ${period}`;
+    const text = `${filer} ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} in ${period}.\n$${data.symbol}`;
     return text;
 }
 
-module.exports = {twitClient, postTweet, generateTweet}
+const tweetBacklog = []
+
+module.exports = {twitClient, generateTweet, tweetBacklog}

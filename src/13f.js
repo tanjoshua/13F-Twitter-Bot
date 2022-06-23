@@ -1,6 +1,6 @@
 const { FILERS } = require("./constants");
 const { filerExists, insertNewFiler, getLastQuarterById, updateById, resetDb } = require("./utils/db");
-const { generateTweet } = require("./utils/twit");
+const { generateTweet, postTweet, twitClient, tweetBacklog } = require("./utils/twit");
 const { findHoldingsDiff, getLatestQuarter } = require("./utils/ww")
 
 const parseHoldings = async (filerId, newQ) => {
@@ -56,22 +56,24 @@ const getTweetsFromFilers = async () => {
       console.log(`Couldn't fetch holdings for ${filer} in quarter ${quarterId}`);
       continue;
     }
+
+    // update db
+    updateById(filerId, quarterId);
     
     console.log(`Generating ${holdings.length} tweets for ${filer} in quarter ${quarterId}`)
     for (holding of holdings) {
       const tweet = generateTweet(filer, holding, formattedPeriod);
-      console.log(tweet);
-      // TODO: MAKE TWEET
+
+      // post tweets
+      twitClient.post('statuses/update', { status: tweet }, function(err, data, response) {
+        if (err) {
+          console.log("Failed to tweet, pushing to backlog");
+          tweetBacklog.push(tweet);
+        } else {
+          console.log(`TWEETED: ${data.text}`)
+        }})
     }
-
-    // update db
-    updateById(filerId, quarterId);
   }
-}
-
-const test = async() => {
-  resetDb();
-  getTweetsFromFilers();
 }
 
 module.exports = {parseHoldings, getTweetsFromFilers}
