@@ -29,6 +29,6 @@ const tweetBacklogJob = new CronJob('*/15 * * * *', async () => {
     }
 })
 
-resetDb();
-// job.start();
-// tweetBacklogJob.start();
+// resetDb();
+job.start();
+tweetBacklogJob.start();
