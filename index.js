@@ -4,12 +4,12 @@ const { tweetBacklog, twitClient } = require("./src/utils/twit");
 
 const CronJob = require('cron').CronJob;
 
-const job = new CronJob('* * * * *', async () => {
+const job = new CronJob('*/10 * * * *', async () => {
     console.log(new Date().toLocaleString())
     await getTweetsFromFilers();
 })
 
-const tweetBacklogJob = new CronJob('0 * * * *', async () => {
+const tweetBacklogJob = new CronJob('*/15 * * * *', async () => {
     if (tweetBacklog.length > 0) {
         console.log(`${tweetBacklog.length} tweets in backlog, tweeting now`);
         const count = tweetBacklog.length;
@@ -29,6 +29,6 @@ const tweetBacklogJob = new CronJob('0 * * * *', async () => {
     }
 })
 
-// resetDb();
-job.start();
-tweetBacklogJob.start();
+resetDb();
+// job.start();
+// tweetBacklogJob.start();
