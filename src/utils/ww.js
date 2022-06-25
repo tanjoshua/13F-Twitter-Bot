@@ -59,6 +59,7 @@ const findHoldingsDiff = async (filerId, q1id, q2id) => {
     filerid: filerId,
     q1id: q1id,
     q2id: q2id,
+    filter: ["SHARES"]
   }
 
   try {
