@@ -1,5 +1,5 @@
 const { FILERS } = require("./constants");
-const { filerExists, insertNewFiler, getLastQuarterById, updateById, resetDb } = require("./utils/db");
+const { filerExists, insertNewFiler, getLastQuarterById, updateById, resetDb, addToBacklog } = require("./utils/db");
 const { generateTweet, postTweet, twitClient, tweetBacklog } = require("./utils/twit");
 const { findHoldingsDiff, getLatestQuarter } = require("./utils/ww")
 
@@ -68,7 +68,7 @@ const getTweetsFromFilers = async () => {
       twitClient.post('statuses/update', { status: tweet }, function(err, data, response) {
         if (err) {
           console.log("Failed to tweet, pushing to backlog");
-          tweetBacklog.push(tweet);
+          addToBacklog(tweet);
         } else {
           console.log(`TWEETED: ${data.text}`)
         }})

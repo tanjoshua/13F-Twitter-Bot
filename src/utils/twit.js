@@ -20,10 +20,9 @@ const generateTweet = (filer, data, period) => {
     } else {
         changeText = "New Position";
     }
-    const text = `${filer} ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} in ${period}.\n$${data.symbol}`;
+    const text = `${filer} ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} in ${period}. $${data.symbol}`;
     return text;
 }
 
-const tweetBacklog = []
 
-module.exports = {twitClient, generateTweet, tweetBacklog}
+module.exports = {twitClient, generateTweet}

@@ -27,4 +27,20 @@ const resetDb = () => {
     del.run();
 }
 
-module.exports = {insertNewFiler, getLastQuarterById, updateById, filerExists, resetDb}
+const getTweetBacklog = () => {
+    const statement = db.prepare('SELECT id, tweet FROM backlog');
+    const backlog = statement.all()
+    return backlog
+}
+
+const addToBacklog = (tweet) => {
+    const insert = db.prepare('INSERT INTO backlog (tweet) VALUES (?)');
+    insert.run(tweet);
+}
+
+const removeFromBacklogById = (id) => {
+    const del = db.prepare("DELETE FROM backlog WHERE id=?");
+    del.run(id);
+}
+
+module.exports = {insertNewFiler, getLastQuarterById, updateById, filerExists, resetDb, getTweetBacklog, removeFromBacklogById, addToBacklog}
