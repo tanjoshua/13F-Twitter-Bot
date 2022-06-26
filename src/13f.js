@@ -1,5 +1,5 @@
 const { FILERS } = require("./constants");
-const { filerExists, insertNewFiler, getLastQuarterById, updateById, resetDb, addToBacklog } = require("./utils/db");
+const { filerExists, insertNewFiler, getLastQuarterById, updateById, resetDb, addToBacklog} = require("./utils/pg");
 const { generateTweet, postTweet, twitClient, tweetBacklog } = require("./utils/twit");
 const { findHoldingsDiff, getLatestQuarter } = require("./utils/ww")
 
@@ -39,7 +39,8 @@ const getTweetsFromFilers = async () => {
     filerId = FILERS[filer];
 
     // check if we should parse holdings
-    if (filerExists(filerId)) {
+    const fe = await filerExists(filerId);
+    if (fe) {
       const lastQuarter = await getLastQuarterById(filerId);
       if (!lastQuarter || quarterId <= lastQuarter) {
         console.log(`Holdings already processed for ${filer} in quarter ${quarterId}`)
@@ -58,7 +59,7 @@ const getTweetsFromFilers = async () => {
     }
 
     // update db
-    updateById(filerId, quarterId);
+    await updateById(filerId, quarterId);
     
     console.log(`Generating ${holdings.length} tweets for ${filer} in quarter ${quarterId}`)
     for (holding of holdings) {

@@ -1,12 +1,12 @@
-const { getTweetBacklog, removeFromBacklogById } = require("./src/utils/db");
+const { getTweetBacklog, removeFromBacklogById } = require("./src/utils/pg");
 const { twitClient } = require("./src/utils/twit");
 
 const clearBacklog = async () => {
-    const tweetBacklog = getTweetBacklog();
+    const tweetBacklog = await getTweetBacklog();
 
     if (tweetBacklog.length > 0) {
         console.log(`${tweetBacklog.length} tweets in backlog, tweeting now`);
-        for (data of tweetBacklog) {
+        for (let data of tweetBacklog) {
             const tweet = data.tweet
             const backlogId = data.id
             
@@ -15,7 +15,7 @@ const clearBacklog = async () => {
                     console.log("Failed to tweet, leave in backlog");
                 } else {
                     removeFromBacklogById(backlogId);
-                    console.log(`TWEETED: ${data.text}`)
+                    console.log(`TWEETED: ${data.text}`);
                 }
             })
         }

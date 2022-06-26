@@ -1,3 +1,8 @@
 const { clearBacklog } = require("../backlog");
+const { pool } = require("../src/utils/pg");
 
-clearBacklog();
+const run = async () => {
+    await clearBacklog();
+}
+
+run();

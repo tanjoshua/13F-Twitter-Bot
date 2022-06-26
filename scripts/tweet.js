@@ -1,3 +1,8 @@
 const { getTweetsFromFilers } = require("../src/13f");
+const { pool } = require("../src/utils/pg");
 
-getTweetsFromFilers();
+const run = async () => {
+    await getTweetsFromFilers();
+}
+
+run();
