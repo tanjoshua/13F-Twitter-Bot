@@ -47,10 +47,36 @@ const findHoldings = async (filerId, quarter) => {
 
   try {
     const response = await makeApiCall(args);
-    return response.data;
+    const obj = response.data.results[0]
+    return obj
   } catch (error) {
     console.log(error);
   }
+}
+
+const hasFiled = async (filerId, quarter) => {
+  const args = {
+    command: "holdings",
+    filer_ids: [filerId],
+    quarter_ids: [quarter],
+    limit: 1,
+  }
+
+  try {
+    const response = await makeApiCall(args);
+    const data = response.data
+    if (data.errors) {
+      throw new Error()
+    }
+
+    const obj = response.data.results[0]
+    record = obj.records[0]
+    
+    return !!record.date_last_filed
+  } catch (error) {
+    return false
+  }
+
 }
 
 const findHoldingsDiff = async (filerId, q1id, q2id) => {
@@ -70,6 +96,20 @@ const findHoldingsDiff = async (filerId, q1id, q2id) => {
   }
 }
 
+const findFiler = async (filerId) => {
+  const args = {
+    command: "filer_lookup",
+    id: filerId
+  }
+
+  try {
+    const response = await makeApiCall(args);
+    return response.data
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
-module.exports = {makeApiCall, findQuarters, findHoldings, findHoldingsDiff, getLatestQuarter}
+
+module.exports = {makeApiCall, findQuarters, findHoldings, findHoldingsDiff, getLatestQuarter, findFiler, hasFiled}
