@@ -24,7 +24,6 @@ const tweetBacklogJob = new CronJob('*/15 * * * *', async () => {
 
 
 const test = async () => {
-    const res = await hasFiled(FILERS["BERKSHIRE HATHAWAY INC"], 86)
+    const res = await hasFiled(FILERS["DALAL STREET LLC"], 86)
     console.log(res);
 }
-test();
