@@ -1,5 +1,6 @@
 require('dotenv').config();
 const twit = require('twit');
+const { HANDLES } = require('../constants');
 
 const twitClient = new twit({
     consumer_key: process.env.CONSUMER_KEY,
@@ -20,7 +21,11 @@ const generateTweet = (filer, data, period) => {
     } else {
         changeText = "New Position";
     }
-    const text = `${filer} ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} in ${period}. $${data.symbol}`;
+
+    // get twitter handle or name
+    const handle = HANDLES[filer]
+
+    const text = `${filer} (${handle}) ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} in ${period}. $${data.symbol}`;
     return text;
 }
 
