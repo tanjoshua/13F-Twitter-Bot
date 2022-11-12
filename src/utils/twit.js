@@ -25,7 +25,20 @@ const generateTweet = (filer, data, period) => {
     // get twitter handle or name
     const handle = HANDLES[filer]
 
-    const text = `${filer} (${handle}) ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} in ${period}. $${data.symbol}`;
+    let text = `${filer} (${handle}) ${action} ${absChange.toLocaleString()} shares (${changeText}) of ${data.stock_name} in ${period}. `;
+    
+    // portfolio % information
+    let percentText;
+    if (action == "bought") {
+        const percent = data.quarter_two_percent_of_portfolio
+        percentText = `$${data.symbol} is now ${percent.toFixed(2)}% of the portfolio.`
+    } else {
+        const percent = data.quarter_one_percent_of_portfolio
+        percentText = `$${data.symbol} was previously ${percent.toFixed(2)}% of the portfolio.`
+    }
+
+    text += percentText
+
     return text;
 }
 
