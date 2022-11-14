@@ -26,8 +26,9 @@ const tweetBacklogJob = new CronJob('*/15 * * * *', async () => {
 
 
 const test = async () => {
-    const filer = "APPALOOSA LP"
-    const quarter = 85
+    const filer = "SCION ASSET MANAGEMENT LLC"
+    const quarter = 87
+    console.log(await hasFiled(FILERS[filer], quarter))
     holdings = await parseHoldings(FILERS[filer], quarter);
     for (holding of holdings) {
       const tweet = generateTweet(filer, holding, "TEST Q");
