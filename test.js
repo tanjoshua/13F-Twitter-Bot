@@ -4,7 +4,7 @@ const { FILERS } = require("./src/constants");
 const { filerExists, insertNewFiler, updateById, getLastQuarterById, pool } = require("./src/utils/pg");
 const { findHoldingsDiff, findHoldings, hasFiled } = require("./src/utils/ww");
 const {parseHoldings} = require("./src/13f")
-const {generateTweet} = require("./src/utils/twit")
+const {generateTweet, twitClient} = require("./src/utils/twit")
 
 const CronJob = require('cron').CronJob;
 
@@ -26,12 +26,21 @@ const tweetBacklogJob = new CronJob('*/15 * * * *', async () => {
 
 
 const test = async () => {
-    const filer = "SCION ASSET MANAGEMENT LLC"
-    const quarter = 87
-    console.log(await hasFiled(FILERS[filer], quarter))
-    holdings = await parseHoldings(FILERS[filer], quarter);
-    for (holding of holdings) {
-      const tweet = generateTweet(filer, holding, "TEST Q");
-      console.log(tweet)
-    }
+    // const filer = "SCION ASSET MANAGEMENT LLC"
+    // const quarter = 87
+    // console.log(await hasFiled(FILERS[filer], quarter))
+    // holdings = await parseHoldings(FILERS[filer], quarter);
+    // for (holding of holdings) {
+    //   const tweet = generateTweet(filer, holding, "TEST Q");
+    //   console.log(tweet)
+    // }
+      twitClient.post('statuses/update', { status: "test tweet" }, function(err, data, response) {
+        if (err) {
+          console.log(err)
+          console.log("Failed to tweet, pushing to backlog");
+        } else {
+          console.log(`TWEETED: ${data.text}`)
+        }})
 }
+
+test()
