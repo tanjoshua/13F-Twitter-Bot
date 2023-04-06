@@ -17,7 +17,7 @@ const parseHoldings = async (filerId, newQ) => {
     change = Math.abs(record.change_in_shares);
     pChange = change / record.quarter_one_shares;
     if (pChange >= 0.10 
-      && (record.quarter_one_percent_of_portfolio >= 5 || record.quarter_two_percent_of_portfolio >= 5)
+      && (record.quarter_one_percent_of_portfolio >= 3 || record.quarter_two_percent_of_portfolio >= 3)
       ) {
         applicableRecords.push(record);
     }
