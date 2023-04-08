@@ -5,4 +5,6 @@ The bot is deployed at [@13FTracker](https://twitter.com/13FTracker) on Twitter.
 
 UPDATE (Q4 2022): Elon deemed my account to be in violation of twitter's policy and my api write permissions go revoked :( Hopefully one day this bot will be back up
 
+UPDATE (April 6 2023): I've gotten new api credentials so the app will be up and running for the next filing season!
+
 [![github-readme-twitter](https://github-readme-twitter.gazf.vercel.app/api?id=13FTracker)](https://github.com/gazf/github-readme-twitter)
